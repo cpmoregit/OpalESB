@@ -59,7 +59,10 @@ public class HTTPDataReceive extends Thread {
 			}
 
 			if (httpMethod.equals("GET")) {
-				sendResponse(200, responseBuffer.toString());
+				processGetRequest(200, responseBuffer.toString());
+				
+			}else if (httpMethod.equals("POST")) {
+				processPostRequest(200, responseBuffer.toString());
 			}
 
 		} catch (Exception exp) {
@@ -67,8 +70,16 @@ public class HTTPDataReceive extends Thread {
 		}
 
 	}
+	
+	public void processGetRequest(int statusCode, String responseString) {
+		sendGetResponse(statusCode, responseString);
+	}
+	
+	public void processPostRequest(int statusCode, String responseString) {
+		
+	}
 
-	public void sendResponse(int statusCode, String responseString) {
+	public void sendGetResponse(int statusCode, String responseString) {
 
 		String statusLine = null;
 		String serverDetails = "OPAL ESB HTTP Service";
@@ -96,6 +107,10 @@ public class HTTPDataReceive extends Thread {
 			Log.log(Log.FATAL, exp.getMessage());
 		}
 	}
+	
+	public void sendPostResponse(int statusCode, String responseString) {
+		
+	}
 
 	public static void main(String[] args) {
 		try{
@@ -103,6 +118,7 @@ public class HTTPDataReceive extends Thread {
 					                               10,
 					                               InetAddress.getByName("127.0.0.1"));
 			Log.log(Log.INFO, "TCPServer waiting for client on port 5000");
+			
 			while(true){
 				Socket connected = server.accept();
 					(new HTTPDataReceive(connected)).start();
