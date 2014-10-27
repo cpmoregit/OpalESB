@@ -1,4 +1,4 @@
-package org.opalesb.engine;
+package org.opalesb.engine.inbound;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
